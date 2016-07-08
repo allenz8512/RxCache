@@ -1,0 +1,51 @@
+apply plugin: 'com.github.dcendents.android-maven'
+
+group = GROUP
+version = VERSION_NAME
+
+task sourcesJar(type: Jar) {
+    if (project.getPlugins().hasPlugin('com.android.application') ||
+            project.getPlugins().hasPlugin('com.android.library')) {
+        from android.sourceSets.main.java.source
+    } else {
+        from sourceSets.main.java.source
+    }
+    classifier = 'sources'
+}
+
+install {
+    repositories.mavenInstaller {
+        pom {
+            //noinspection GroovyAssignabilityCheck
+            project {
+                packaging POM_PACKAGING
+
+                name POM_NAME
+                groupId GROUP
+                artifactId POM_ARTIFACT_ID
+                //noinspection GroovyAssignabilityCheck
+                version VERSION_NAME
+
+                licenses {
+                    license {
+                        //noinspection GroovyAssignabilityCheck
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'Allenz'
+                        //noinspection GroovyAssignabilityCheck
+                        name 'Allenz'
+                        email 'zjlmeet@gmail.com'
+                    }
+                }
+            }
+        }
+
+        artifacts {
+            archives sourcesJar
+        }
+    }
+}
